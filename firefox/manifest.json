@@ -1,0 +1,28 @@
+{
+    "manifest_version": 2,
+    "name": "Ancestry Image Restoration",
+    "version": "1.0",
+    "description": "Restores images with GFPGAN from Ancestry.com",
+    "author": "Stephen Witkowski",
+    "icon": {
+        "48": "icons/icon.png"
+    },
+    "permissions": [
+        "activeTab"
+    ],
+    "browser_action": {
+        "default_icon": "icons/icon.png",
+        "default_title": "Ancestry Image Restoration",
+        "default_popup": "popup.html"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "http://www.ancestry.com/*"
+            ],
+            "js": [
+                "js/grab-image.js"
+            ]
+        }
+    ]
+}
