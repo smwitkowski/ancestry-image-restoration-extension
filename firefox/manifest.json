@@ -15,14 +15,4 @@
         "default_title": "Ancestry Image Restoration",
         "default_popup": "popup/popup.html"
     }
-    //     "content_scripts": [
-    //         {
-    //             "matches": [
-    //                 "http://www.ancestry.com/*"
-    //             ],
-    //             "js": [
-    //                 "content_scripts/gather_url.js"
-    //             ]
-    //         }
-    //     ]
 }
