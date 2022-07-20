@@ -1,9 +1,8 @@
 {
+    "description": "Restores an image from Ancestry and makes it available for download",
     "manifest_version": 2,
     "name": "Ancestry Image Restoration",
     "version": "1.0",
-    "description": "Restores images with GFPGAN from Ancestry.com",
-    "author": "Stephen Witkowski",
     "icons": {
         "48": "icons/icon.png"
     },
@@ -14,5 +13,8 @@
         "default_icon": "icons/icon.png",
         "default_title": "Ancestry Image Restoration",
         "default_popup": "popup/popup.html"
-    }
+    },
+    "web_accessible_resources": [
+        "assets/*"
+    ]
 }
