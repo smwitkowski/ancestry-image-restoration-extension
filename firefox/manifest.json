@@ -4,7 +4,7 @@
     "version": "1.0",
     "description": "Restores images with GFPGAN from Ancestry.com",
     "author": "Stephen Witkowski",
-    "icon": {
+    "icons": {
         "48": "icons/icon.png"
     },
     "permissions": [
@@ -13,16 +13,16 @@
     "browser_action": {
         "default_icon": "icons/icon.png",
         "default_title": "Ancestry Image Restoration",
-        "default_popup": "popup.html"
-    },
-    "content_scripts": [
-        {
-            "matches": [
-                "http://www.ancestry.com/*"
-            ],
-            "js": [
-                "js/grab-image.js"
-            ]
-        }
-    ]
+        "default_popup": "popup/popup.html"
+    }
+    //     "content_scripts": [
+    //         {
+    //             "matches": [
+    //                 "http://www.ancestry.com/*"
+    //             ],
+    //             "js": [
+    //                 "content_scripts/gather_url.js"
+    //             ]
+    //         }
+    //     ]
 }
