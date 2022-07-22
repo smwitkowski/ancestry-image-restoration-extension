@@ -6,6 +6,9 @@ from gfpgan import GFPGANer
 from basicsr.utils import imwrite
 import cv2
 import numpy as np
+import boto3
+import shutil
+import uuid
 
 FILE_PATH = Path(os.path.realpath(__file__)).parent
 MODEL_DIR = FILE_PATH / 'models/'
@@ -87,6 +90,32 @@ def restore_face():
     # Save the restored image to the image directory
     imwrite(restored_img, str( IMAGE_DIR / 'restored_image.jpg') )
     
+def upload_folder_to_s3(request_id = None):
+
+    if request_id == None:
+        request_id = 'test_' + uuid.uuid1().hex
+
+    # Create the S3 client
+    client = boto3.client('s3')
+
+    # Create a .zip file of the image directory
+    shutil.make_archive(FILE_PATH / f'{request_id}', 'zip', IMAGE_DIR)
+
+    # Upload the .zip file to S3
+    client.upload_file(
+        str(FILE_PATH / f'{request_id}.zip'), 
+        'ancestry-face-restoration-extension', 
+        f'restorations/{request_id}.zip')
+    
+    # Generate a presigned URL for the .zip file
+    response = client.generate_presigned_url( 'get_object', 
+        Params = {
+            'Bucket': 'ancestry-face-restoration-extension',
+            'Key': f'restorations/{request_id}.zip'
+            },
+        ExpiresIn=600)
+    
+    return response
 
 def handler(event, context):
 
@@ -108,4 +137,6 @@ def handler(event, context):
     # Restore the face(s) from the image
     restore_face()
 
-    return "Image downloaded and restored"
+    asset_url = upload_folder_to_s3()
+
+    return {'asset_url': asset_url}
