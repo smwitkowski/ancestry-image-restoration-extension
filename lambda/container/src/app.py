@@ -10,16 +10,27 @@ import boto3
 import shutil
 import uuid
 
+def rmdir(directory):
+    directory = Path(directory)
+    for item in directory.iterdir():
+        if item.is_dir():
+            rmdir(item)
+        else:
+            item.unlink()
+        directory.rmdir()
+
 FILE_PATH = Path(os.path.realpath(__file__)).parent
 MODEL_DIR = FILE_PATH / 'models/'
-IMAGE_DIR = FILE_PATH / 'restoration/'
+OUTPUT_DIR = Path('/tmp/output')
 
+rmdir('/tmp')
 
 MODEL_MAPPING = {
     "GPFGAN v1.3": "GFPGANv1.3.pth",
     "GPFGAN v1.2": "GFPGANCleanv1-NoCE-C2.pth",
     "GPFGAN v1": "GFPGANv1.pth"
 }
+
 
 def download_image():
     """
@@ -44,7 +55,7 @@ def download_image():
 
     #TODO - Add a check to make sure the image is actually downloaded
     #TODO - Title the file with the original filename from Ancestry
-    opener.retrieve(url, IMAGE_DIR / 'image.jpg')
+    opener.retrieve(url, OUTPUT_DIR / 'image.jpg')
 
 
 def restore_face():
@@ -65,7 +76,7 @@ def restore_face():
     model_path = str( MODEL_DIR / os.environ['MODEL_FILE'] )
     upscale_factor = int( os.environ['GFPGAN_UPSCALE'] )
     channel_multiplier = int( os.environ['GFPGAN_CHANNEL_MULTIPLIER'] )
-    image_path = str( IMAGE_DIR / 'image.jpg' )
+    image_path = str( OUTPUT_DIR / 'image.jpg' )
 
     input_image = cv2.imread(image_path, cv2.IMREAD_COLOR)
 
@@ -80,15 +91,15 @@ def restore_face():
     # Restore the face(s) from the image
     cropped_faces, restored_faces, restored_img = restorer.enhance(input_image)
 
-    for i, (cropped_face, restored_face) in enumerate(zip(cropped_faces, restored_faces)):
+    # for i, (cropped_face, restored_face) in enumerate(zip(cropped_faces, restored_faces)):
 
-        imwrite(cropped_face, str( IMAGE_DIR / 'cropped_faces' / f'cropped_face_{i}.jpg') )
-        imwrite(restored_face, str( IMAGE_DIR / 'restored_faces' / f'restored_face_{i}.jpg') )
-        comparison = np.concatenate((cropped_face, restored_face), axis=1)
-        imwrite(comparison, str( IMAGE_DIR / 'comparisons' / f'face_{i}_comparison.jpg') )
+    #     imwrite(cropped_face, str( OUTPUT_DIR / 'cropped_faces' / f'cropped_face_{i}.jpg') )
+    #     imwrite(restored_face, str( OUTPUT_DIR / 'restored_faces' / f'restored_face_{i}.jpg') )
+    #     comparison = np.concatenate((cropped_face, restored_face), axis=1)
+    #     imwrite(comparison, str( OUTPUT_DIR / 'comparisons' / f'face_{i}_comparison.jpg') )
 
     # Save the restored image to the image directory
-    imwrite(restored_img, str( IMAGE_DIR / 'restored_image.jpg') )
+    imwrite(restored_img, str( OUTPUT_DIR / 'restored_image.jpg') )
     
 def upload_folder_to_s3(request_id = None):
 
@@ -98,20 +109,20 @@ def upload_folder_to_s3(request_id = None):
     # Create the S3 client
     client = boto3.client('s3')
 
-    # Create a .zip file of the image directory
-    shutil.make_archive(FILE_PATH / f'{request_id}', 'zip', IMAGE_DIR)
+    # # Create a .zip file of the image directory
+    # shutil.make_archive(OUTPUT_DIR / f'{request_id}', 'zip', OUTPUT_DIR)
 
     # Upload the .zip file to S3
     client.upload_file(
-        str(FILE_PATH / f'{request_id}.zip'), 
+        str( OUTPUT_DIR / 'restored_image.jpg'), 
         'ancestry-face-restoration-extension', 
-        f'restorations/{request_id}.zip')
+        f'restorations/{request_id}.jpg')
     
     # Generate a presigned URL for the .zip file
     response = client.generate_presigned_url( 'get_object', 
         Params = {
             'Bucket': 'ancestry-face-restoration-extension',
-            'Key': f'restorations/{request_id}.zip'
+            'Key': f'restorations/{request_id}.jpg'
             },
         ExpiresIn=600)
     
@@ -126,9 +137,9 @@ def handler(event, context):
     os.environ['GFPGAN_CHANNEL_MULTIPLIER'] = event['channel_multiplier']
 
     # Create the image directory and sub-directories where the assets will be stored
-    IMAGE_DIR.mkdir(exist_ok=True)
-    (IMAGE_DIR / 'cropped_faces').mkdir(exist_ok=True)
-    (IMAGE_DIR / 'restored_faces').mkdir(exist_ok=True)
+    OUTPUT_DIR.mkdir(parents = True, exist_ok=True)
+    (OUTPUT_DIR / 'cropped_faces').mkdir(exist_ok=True)
+    (OUTPUT_DIR / 'restored_faces').mkdir(exist_ok=True)
 
 
     # Download the image to the image directory
