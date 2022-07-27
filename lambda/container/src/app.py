@@ -9,6 +9,7 @@ import numpy as np
 import boto3
 import shutil
 import uuid
+import json
 
 def rmdir(directory):
     directory = Path(directory)
@@ -130,11 +131,12 @@ def upload_folder_to_s3(request_id = None):
 
 def handler(event, context):
 
+    body = json.loads(event['body'])
     # Define the environment variables
-    os.environ['IMAGE_URL'] = event['image_url']
-    os.environ['MODEL_FILE'] = MODEL_MAPPING[event['model_selection']]
-    os.environ['GFPGAN_UPSCALE'] = event['upscale_factor']
-    os.environ['GFPGAN_CHANNEL_MULTIPLIER'] = event['channel_multiplier']
+    os.environ['IMAGE_URL'] = body['image_url']
+    os.environ['MODEL_FILE'] = MODEL_MAPPING[body['model_selection']]
+    os.environ['GFPGAN_UPSCALE'] = body['upscale_factor']
+    os.environ['GFPGAN_CHANNEL_MULTIPLIER'] = body['channel_multiplier']
 
     # Create the image directory and sub-directories where the assets will be stored
     OUTPUT_DIR.mkdir(parents = True, exist_ok=True)
@@ -150,4 +152,15 @@ def handler(event, context):
 
     asset_url = upload_folder_to_s3()
 
-    return {'asset_url': asset_url}
+    return {
+        "statusCode": 200,
+        "headers": {
+            "Content-Type": "application/json",
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+        },
+        "body": json.dumps({
+            "asset_url": asset_url
+        })
+    }
