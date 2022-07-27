@@ -1,15 +1,39 @@
 // Function to render the image in the popup
 const renderImage = (imageURL) => {
-  document.getElementById("image").src = imageURL;
+  document.getElementById("original-image").src = imageURL;
 }
 
 const resetImage = () => {
-  document.getElementById("image").src = browser.runtime.getURL("assets/add-image.png");
+  document.getElementById("original-image").src = browser.runtime.getURL("assets/add-image.png");
+  document.getElementById("restored-image").src = browser.runtime.getURL("assets/add-image.png");
 }
+
+function restoreImage(url = 'https://3q76rbwfq3yqqlwsbppnytdcq40ynyzf.lambda-url.us-east-1.on.aws/') {
+  console.log("Entered restorImage function");
+  const response = fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Origin': '*',
+      'Access-Control-Allow-Origin': '*',
+      "Access-Control-Allow-Methods": "GET, PUT, PATCH, POST, DELETE, OPTIONS",
+      "Access-Control-Allow-Headers": "Authorization, Content-Type"
+    },
+    body: JSON.stringify({
+      image_url: document.getElementById("original-image").src,
+      model_selection: "GPFGAN v1.3",
+      upscale_factor: "2",
+      channel_multiplier: "2"
+    })
+  })
+    .then((response) => response.json())
+    .then((data) => document.getElementById("restored-image").src = data['asset_url']);
+}
+// Restore the selected image
 
 // Listen for clicks and run the appropriate function.
 function listenForClicks() {
-  document.addEventListener("click", (e) => {
+  document.addEventListener("click", async e => {
 
     // Render the image in the popup
     function getImageURL(tabs) {
@@ -28,6 +52,11 @@ function listenForClicks() {
       browser.tabs.query({ active: true, currentWindow: true })
         .then(getImageURL)
         .catch(reportError);
+    } else if (e.target.classList.contains("restore")) {
+      console.log("Restoring image");
+      const restoredImageURL = await restoreImage();
+      console.log(restoredImageURL);
+      //document.getElementById("restored-image").src = restoredImageURL;
     }
     else if (e.target.classList.contains("reset")) {
       browser.tabs.query({ active: true, currentWindow: true })
