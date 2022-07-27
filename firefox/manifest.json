@@ -7,7 +7,9 @@
         "48": "icons/icon.png"
     },
     "permissions": [
-        "activeTab"
+        "activeTab",
+        "*://domain/*",
+        "<all_urls>"
     ],
     "browser_action": {
         "default_icon": "icons/icon.png",
