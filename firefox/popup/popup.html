@@ -4,30 +4,53 @@
 
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="get_image.css" />
   <add name="Access-Control-Allow-Origin" value="*" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.css">
 </head>
 
 <body>
   <div id="popup-content">
-    <div class="button image">Render Image</div>
-    <div class="button restore">Restore Image</div>
-    <div class="button reset">Reset</div>
-  </div>
-  <div id="image-container">
-    <img id="original-image" src="" />
-  </div>
-  <div id="restored-image-container">
-    <div id="loader-container" class = "hidden">
-      <div class="loader"></div>
+    <div id="image-container" class="columns">
+      <div id="original-image" class="columns is-mobile is-centered is-vcentered">
+        <div class="column is-3">
+          <img id='img-placeholder' class="image" src="/firefox/assets/add-image.png" alt="Original Image">
+        </div>
+        <div class="column">
+          <h6 class="subtitle is-6">Original Image</h6>
+        </div>
+      </div>
+
     </div>
-    <img id="restored-image" src="" />
   </div>
-  <div id="error-content" class="hidden">
-    <p>Can't beastify this web page.</p>
-    <p>Try a different page.</p>
-  </div>
-  <script src="get_image.js"></script>
+
+
+
 </body>
+
+<!-- 
+    <div id="button-container">
+      <button id="get-image" class="btn btn-primary">Get Image</button>
+      <input class="button" type="submit" value="Submit input">
+      <div class="button image">Render Image</div>
+      <div class="button restore">Restore Image</div>
+      <div class="button reset">Reset</div>
+    </div>
+    <div id="image-container">
+      <img id="original-image" src="" />
+    </div>
+    <div id="restored-image-container">
+      <div id="loader-container" class="hidden">
+        <div class="loader"></div>
+      </div>
+      <img id="restored-image" src="" />
+    </div>
+    <div id="error-content" class="hidden">
+      <p>Can't beastify this web page.</p>
+      <p>Try a different page.</p>
+    </div>
+    <script src="get_image.js"></script>
+</body> -->
 
 </html>

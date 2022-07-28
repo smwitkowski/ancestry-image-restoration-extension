@@ -7,6 +7,17 @@ body {
   display: none;
 }
 
+.img-placeholder {
+  width: 152px;
+  height: 152px;
+  background-color: #f0f0f0;
+  background-image: url("chrome://global/skin/icons/loading_16.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 16px;
+}
+
+
 .button {
   margin: 3% auto;
   padding: 4px;
@@ -74,4 +85,8 @@ img {
   100% {
     transform: rotate(360deg);
   }
+}
+
+h6 {
+  display: inline;
 }
