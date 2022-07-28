@@ -8,9 +8,11 @@ const resetImage = () => {
   document.getElementById("restored-image").src = browser.runtime.getURL("assets/add-image.png");
 }
 
-function restoreImage(url = 'https://3q76rbwfq3yqqlwsbppnytdcq40ynyzf.lambda-url.us-east-1.on.aws/') {
-  console.log("Entered restorImage function");
-  const response = fetch(url, {
+async function restoreImage(url = 'https://3q76rbwfq3yqqlwsbppnytdcq40ynyzf.lambda-url.us-east-1.on.aws/') {
+  document.getElementById("restored-image").classList.add("hidden");
+  document.getElementById("loader-container").classList.remove("hidden");
+
+  const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -26,14 +28,17 @@ function restoreImage(url = 'https://3q76rbwfq3yqqlwsbppnytdcq40ynyzf.lambda-url
       channel_multiplier: "2"
     })
   })
-    .then((response) => response.json())
-    .then((data) => document.getElementById("restored-image").src = data['asset_url']);
+
+  response.json().then((data) => { document.getElementById("restored-image").src = data['asset_url']; });
+
+  document.getElementById("restored-image").classList.remove("hidden");
+  document.getElementById("loader-container").classList.add("hidden");
 }
 // Restore the selected image
 
 // Listen for clicks and run the appropriate function.
 function listenForClicks() {
-  document.addEventListener("click", async e => {
+  document.addEventListener("click", (e) => {
 
     // Render the image in the popup
     function getImageURL(tabs) {
@@ -53,10 +58,7 @@ function listenForClicks() {
         .then(getImageURL)
         .catch(reportError);
     } else if (e.target.classList.contains("restore")) {
-      console.log("Restoring image");
-      const restoredImageURL = await restoreImage();
-      console.log(restoredImageURL);
-      //document.getElementById("restored-image").src = restoredImageURL;
+      restoreImage();
     }
     else if (e.target.classList.contains("reset")) {
       browser.tabs.query({ active: true, currentWindow: true })
