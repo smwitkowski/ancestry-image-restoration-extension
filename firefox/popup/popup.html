@@ -1,45 +1,35 @@
 <!DOCTYPE html>
-
-<html>
-
 <head>
   <meta charset="utf-8">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"/>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="get_image.css" />
-  <add name="Access-Control-Allow-Origin" value="*" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.css">
-</head>
 
+</head>
 <body>
   <p class="title has-text-centered">Ancestry Restore</p>
-  <section class="section" id="popup-content">
-    <div id="image-container" class="columns">
-      <div class="column is-half ">
-        <div id="original-image" class="columns">
-          <div class="column is-half">
-            <img id='img-placeholder' class="image" src="/firefox/assets/add-image.png" alt="Original Image">
-          </div>
-          <div class="column is-half">
-            <p>Original Image</p>
-          </div>
-        </div>
+  <section class="section is-medium" id="popup-content">
+    <div id="image-container" class="columns is-mobile">
+      <div id="original-image-container" class="column is-6 has-text-centered">
+        <p class="subtitle is-6">Original</p>
+          <figure class="image is-64x64 is-inline-block">
+            <img id='original-image' class="image" src="https://cdn-icons.flaticon.com/png/512/4211/premium/4211763.png?token=exp=1659810583~hmac=0e4d38442b95d6e87c2bda8b708615af" alt="Original Image">
+          </figure>
       </div>
-      <div class="column is-half">
-        <div id="original-image" class="columns">
-          <div class="column is-half">
-            <img id='img-placeholder' class="image" src="/firefox/assets/add-image.png" alt="Original Image">
-          </div>
-          <div class="column is-half">
-            <p>Restored Image</p>
-        </div>
+      <div id="restored-image-container" class="column is-6 has-text-centered">
+        <p class="subtitle is-6">Restored</p>
+          <figure class="image is-64x64 is-inline-block">
+            <img id='restored-image' class="image" src="https://cdn-icons.flaticon.com/png/512/4211/premium/4211763.png?token=exp=1659810583~hmac=0e4d38442b95d6e87c2bda8b708615af" alt="Restored Image">
+          </figure>
       </div>
     </div>
   </section>
-  <div id = "button-container" class="flex-container"> 
+  <div id="button-container" class="flex-container">
     <button id="capture-button" class="button">Grab Image</button>
     <button id="restore-button" class="button" disabled>Restore</button>
     <button id="download-button" class="button" disabled>Download</button>
     <button id="reset-button" class="button" disabled>Reset</button>
   </div>
 </body>
+
 </html>

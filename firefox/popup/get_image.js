@@ -1,11 +1,13 @@
 // Function to render the image in the popup
 const renderImage = (imageURL) => {
   document.getElementById("original-image").src = imageURL;
+  document.getElementById("retore-button").removeAttribute("disabled");
 }
 
 const resetImage = () => {
-  document.getElementById("original-image").src = browser.runtime.getURL("assets/add-image.png");
-  document.getElementById("restored-image").src = browser.runtime.getURL("assets/add-image.png");
+  console.log("Resetting image");
+  document.getElementById("original-image").src = "https://cdn-icons.flaticon.com/png/512/4211/premium/4211763.png");
+  document.getElementById("restored-image").src = "https://cdn-icons.flaticon.com/png/512/4211/premium/4211763.png";
 }
 
 async function restoreImage(url = 'https://3q76rbwfq3yqqlwsbppnytdcq40ynyzf.lambda-url.us-east-1.on.aws/') {
@@ -40,6 +42,8 @@ async function restoreImage(url = 'https://3q76rbwfq3yqqlwsbppnytdcq40ynyzf.lamb
 function listenForClicks() {
   document.addEventListener("click", (e) => {
 
+  console.log(e.target.id);
+
     // Render the image in the popup
     function getImageURL(tabs) {
       browser.tabs.sendMessage(tabs[0].id, {
@@ -53,14 +57,14 @@ function listenForClicks() {
     }
 
     // Get the active tab and call the appropriate function
-    if (e.target.classList.contains("image")) {
+    if (e.target.id == "capture-button") {
       browser.tabs.query({ active: true, currentWindow: true })
         .then(getImageURL)
         .catch(reportError);
-    } else if (e.target.classList.contains("restore")) {
+    } else if (e.target.id == "restore-buton") {
       restoreImage();
     }
-    else if (e.target.classList.contains("reset")) {
+    else if (e.target.id == "reset-button") {
       browser.tabs.query({ active: true, currentWindow: true })
         .then(resetImage)
         .catch(reportError);
