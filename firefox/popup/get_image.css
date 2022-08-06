@@ -1,6 +1,6 @@
 html,
 body {
-  width: 300px;
+  width: 500px;
 }
 
 .hidden {
@@ -89,4 +89,18 @@ img {
 
 h6 {
   display: inline;
+}
+
+.img-placeholder {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+
+}
+
+#button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -11,46 +11,35 @@
 </head>
 
 <body>
-  <div id="popup-content">
+  <p class="title has-text-centered">Ancestry Restore</p>
+  <section class="section" id="popup-content">
     <div id="image-container" class="columns">
-      <div id="original-image" class="columns is-mobile is-centered is-vcentered">
-        <div class="column is-3">
-          <img id='img-placeholder' class="image" src="/firefox/assets/add-image.png" alt="Original Image">
-        </div>
-        <div class="column">
-          <h6 class="subtitle is-6">Original Image</h6>
+      <div class="column is-half ">
+        <div id="original-image" class="columns">
+          <div class="column is-half">
+            <img id='img-placeholder' class="image" src="/firefox/assets/add-image.png" alt="Original Image">
+          </div>
+          <div class="column is-half">
+            <p>Original Image</p>
+          </div>
         </div>
       </div>
-
+      <div class="column is-half">
+        <div id="original-image" class="columns">
+          <div class="column is-half">
+            <img id='img-placeholder' class="image" src="/firefox/assets/add-image.png" alt="Original Image">
+          </div>
+          <div class="column is-half">
+            <p>Restored Image</p>
+        </div>
+      </div>
     </div>
+  </section>
+  <div id = "button-container" class="flex-container"> 
+    <button id="capture-button" class="button">Grab Image</button>
+    <button id="restore-button" class="button" disabled>Restore</button>
+    <button id="download-button" class="button" disabled>Download</button>
+    <button id="reset-button" class="button" disabled>Reset</button>
   </div>
-
-
-
 </body>
-
-<!-- 
-    <div id="button-container">
-      <button id="get-image" class="btn btn-primary">Get Image</button>
-      <input class="button" type="submit" value="Submit input">
-      <div class="button image">Render Image</div>
-      <div class="button restore">Restore Image</div>
-      <div class="button reset">Reset</div>
-    </div>
-    <div id="image-container">
-      <img id="original-image" src="" />
-    </div>
-    <div id="restored-image-container">
-      <div id="loader-container" class="hidden">
-        <div class="loader"></div>
-      </div>
-      <img id="restored-image" src="" />
-    </div>
-    <div id="error-content" class="hidden">
-      <p>Can't beastify this web page.</p>
-      <p>Try a different page.</p>
-    </div>
-    <script src="get_image.js"></script>
-</body> -->
-
 </html>
