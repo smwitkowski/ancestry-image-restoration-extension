@@ -12,15 +12,22 @@
     <div id="image-container" class="columns is-mobile">
       <div id="original-image-container" class="column is-6 has-text-centered">
         <p class="subtitle is-6">Original</p>
-          <figure class="image is-64x64 is-inline-block">
+        <div class="box">
+          <figure class="image is-inline-block">
             <img id='original-image' class="image" src="https://cdn-icons.flaticon.com/png/512/4211/premium/4211763.png?token=exp=1659810583~hmac=0e4d38442b95d6e87c2bda8b708615af" alt="Original Image">
           </figure>
+        </div>
       </div>
       <div id="restored-image-container" class="column is-6 has-text-centered">
         <p class="subtitle is-6">Restored</p>
-          <figure class="image is-64x64 is-inline-block">
+        <div class="box">
+          <div class="loader-wrapper">
+            <div class="loader is-loading"></div>
+        </div>
+          <figure class="image is-inline-block">
             <img id='restored-image' class="image" src="https://cdn-icons.flaticon.com/png/512/4211/premium/4211763.png?token=exp=1659810583~hmac=0e4d38442b95d6e87c2bda8b708615af" alt="Restored Image">
           </figure>
+        </div>
       </div>
     </div>
   </section>
@@ -30,6 +37,7 @@
     <button id="download-button" class="button" disabled>Download</button>
     <button id="reset-button" class="button" disabled>Reset</button>
   </div>
+  <script src="get_image.js"></script>
 </body>
 
 </html>

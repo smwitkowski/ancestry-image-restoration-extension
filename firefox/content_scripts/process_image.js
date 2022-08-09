@@ -15,10 +15,10 @@
     return imageURL;
   }
 
-  // Remove the image in the popup
-  function reset() {
-    return browser.runtime.getURL("assets/add-image.png");
-  };
+  // // Remove the image in the popup
+  // function reset() {
+  //   return browser.runtime.getURL("assets/add-image.png");
+  // };
 
   /**
    * Listen for messages from the background script.

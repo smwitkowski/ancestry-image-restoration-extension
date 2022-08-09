@@ -11,6 +11,21 @@
         "*://domain/*",
         "<all_urls>"
     ],
+    "content_scripts": [
+        {
+            "matches": [
+                "*://ancestry.com/*"
+            ],
+            "js": [
+                "content_scripts/process_image.js"
+            ]
+        }
+    ],
+    "web_accessible_resources": [
+        "content_scripts/process_image.js",
+        "assets/add-image.png",
+        "assets/loading.gif"
+    ],
     "browser_action": {
         "default_icon": "icons/icon.png",
         "default_title": "Ancestry Image Restoration",

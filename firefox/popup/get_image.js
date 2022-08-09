@@ -1,18 +1,20 @@
 // Function to render the image in the popup
+var loading_url = browser.extension.getURL("assets/loading.gif");
+
 const renderImage = (imageURL) => {
   document.getElementById("original-image").src = imageURL;
-  document.getElementById("retore-button").removeAttribute("disabled");
+  document.getElementById("restore-button").removeAttribute("disabled");
 }
 
 const resetImage = () => {
   console.log("Resetting image");
-  document.getElementById("original-image").src = "https://cdn-icons.flaticon.com/png/512/4211/premium/4211763.png");
+  document.getElementById("original-image").src = "https://cdn-icons.flaticon.com/png/512/4211/premium/4211763.png";
   document.getElementById("restored-image").src = "https://cdn-icons.flaticon.com/png/512/4211/premium/4211763.png";
 }
 
 async function restoreImage(url = 'https://3q76rbwfq3yqqlwsbppnytdcq40ynyzf.lambda-url.us-east-1.on.aws/') {
-  document.getElementById("restored-image").classList.add("hidden");
-  document.getElementById("loader-container").classList.remove("hidden");
+  // document.getElementById("restored-image").classList.add("hidden");
+  document.getElementById("restored-image").src = loading_url;
 
   const response = await fetch(url, {
     method: 'POST',
@@ -32,9 +34,7 @@ async function restoreImage(url = 'https://3q76rbwfq3yqqlwsbppnytdcq40ynyzf.lamb
   })
 
   response.json().then((data) => { document.getElementById("restored-image").src = data['asset_url']; });
-
-  document.getElementById("restored-image").classList.remove("hidden");
-  document.getElementById("loader-container").classList.add("hidden");
+  
 }
 // Restore the selected image
 
@@ -42,14 +42,16 @@ async function restoreImage(url = 'https://3q76rbwfq3yqqlwsbppnytdcq40ynyzf.lamb
 function listenForClicks() {
   document.addEventListener("click", (e) => {
 
-  console.log(e.target.id);
+  console.log(e.target.getAttribute('id'));
 
     // Render the image in the popup
     function getImageURL(tabs) {
       browser.tabs.sendMessage(tabs[0].id, {
         command: "getImageURL"
-      }, renderImage);
+      }).then((imageURL) => {
+        renderImage(imageURL)});
     }
+
 
     // Log the error to the console
     function reportError(error) {
@@ -61,7 +63,8 @@ function listenForClicks() {
       browser.tabs.query({ active: true, currentWindow: true })
         .then(getImageURL)
         .catch(reportError);
-    } else if (e.target.id == "restore-buton") {
+    } 
+    else if (e.target.id == "restore-button") {
       restoreImage();
     }
     else if (e.target.id == "reset-button") {
@@ -84,6 +87,5 @@ function reportExecuteScriptError(error) {
  * If we couldn't inject the script, handle the error.
  */
 browser.tabs.executeScript({ file: "/content_scripts/process_image.js" })
-  .then(resetImage)
   .then(listenForClicks)
   .catch(reportExecuteScriptError);
