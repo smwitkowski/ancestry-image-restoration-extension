@@ -1,1 +1,0 @@
-curl -XPOST "https://3q76rbwfq3yqqlwsbppnytdcq40ynyzf.lambda-url.us-east-1.on.aws" -d '{"image_url":"https://mediasvc.ancestry.com/v2/image/namespaces/1093/media/1c72fa3a-5355-4ef1-9094-0cb14f24b5d9.jpg?client=trees-mediaservice&imageQuality=hq&maxWidth=1080&maxHeight=1782", "model_selection":"GPFGAN v1.3", "upscale_factor": "2", "channel_multiplier": "2"}'
