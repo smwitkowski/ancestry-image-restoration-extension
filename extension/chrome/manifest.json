@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Ancestry Enhancer",
   "version": "0.0.1",
-  "description": "Enhances blurry photos on Ancestry.com using AI upscale model GFPGAN and Replicate.",
+  "description": "Enhances blurry photos on Ancestry.com using AI upscale model GFPGAN and Replicate. Open source code can be found at https://github.com/smwitkowski/ancestry-image-restoration-extension.",
   "icons": {
     "48": "icon48.png",
     "128": "icon128.png"
