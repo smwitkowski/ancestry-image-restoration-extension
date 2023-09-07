@@ -40,7 +40,7 @@ function enhancePhoto(photoUrl) {
       downloadButton.innerText = "Download Enhanced Photo";
       downloadButton.onclick = function () {
         const a = document.createElement("a");
-        a.href = response.enhancedUrl;
+        a.href = response;
         a.download = "enhanced-photo.jpg";
         document.body.appendChild(a);
         a.click();

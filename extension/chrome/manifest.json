@@ -1,19 +1,17 @@
 {
   "manifest_version": 2,
   "name": "Ancestry Enhancer",
-  "version": "1.0",
-  "description": "Enhances blurry photos on Ancestry.com",
+  "version": "0.0.1",
+  "description": "Enhances blurry photos on Ancestry.com using AI upscale model GFPGAN and Replicate.",
   "icons": {
-    "16": "icon16.png",
     "48": "icon48.png",
     "128": "icon128.png"
   },
   "permissions": [
     "activeTab",
-    "http://*/*",
-    "https://*/*",
-    "https://ancestry-restore-mvfdoowqfq-uc.a.run.app/",
-    "https://replicate.delivery/*/*"
+    "https://www.ancestry.com/*",
+    "https://ancestry-restore-mvfdoowqfq-uc.a.run.app/*",
+    "https://replicate.delivery/*"
   ],
   "content_scripts": [
     {
@@ -24,11 +22,9 @@
   ],
   "browser_action": {
     "default_icon": {
-      "16": "icon16.png",
       "48": "icon48.png",
       "128": "icon128.png"
-    },
-    "default_popup": "popup.html"
+    }
   },
     "background": {
     "scripts": ["background.js"],

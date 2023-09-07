@@ -44,6 +44,7 @@ def process_image():
 
     # Assuming the client sends an image as a multipart/form-data POST request
     img_url = request.json.get('img')
+    image_filename = img_url.split("/")[-1].split(".")[0]
     if not img_url:
         return jsonify({"error": "No image provided"}), 400
     # Download the image
@@ -51,7 +52,7 @@ def process_image():
         response = requests.get(img_url, stream=True)
         response.raise_for_status()
         # Write the image to a local file
-        local_filename = "temp_image.jpg"  # You can make this name more unique if needed
+        local_filename = f"/tmp/{image_filename}.jpg"
         with open(local_filename, 'wb') as f:
             for chunk in response.iter_content(chunk_size=8192): 
                 f.write(chunk)
@@ -62,7 +63,11 @@ def process_image():
     try:
         output = replicate.run(
             "tencentarc/gfpgan:9283608cc6b7be6b65a8e44983db012355fde4132009bf99d976b2f0896856a3",
-            input={"img": open(local_filename, "rb")}
+            input={
+                "img": open(local_filename, "rb"),
+                "version": "v1.3",
+                "output": f"/tmp/{image_filename}_restored.jpg"
+            }
         )
         # Delete the temp image after processing
         os.remove(local_filename)
